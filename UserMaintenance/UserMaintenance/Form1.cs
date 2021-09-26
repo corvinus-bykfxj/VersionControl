@@ -22,10 +22,12 @@ namespace UserMaintenance
             label1.Text = Resource.FullName;
             button1.Text = Resource.Add;
             button2.Text = Resource.WriteToFile;
+            button3.Text = Resource.Delete;
 
             listBox1.DataSource = users;
             listBox1.ValueMember = "ID";
             listBox1.DisplayMember = "FullName";
+        
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -54,6 +56,19 @@ namespace UserMaintenance
                         sw.WriteLine($"{item.ID.ToString()}; {item.FullName}");
                     }
                 }
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            foreach (var item in users)
+            {
+                if (item.ID.ToString() == listBox1.SelectedValue.ToString())
+                {
+                    users.Remove(item);
+                    return;
+                }
+                listBox1.Refresh();
             }
         }
     }
