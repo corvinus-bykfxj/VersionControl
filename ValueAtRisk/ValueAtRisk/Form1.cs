@@ -14,7 +14,7 @@ namespace ValueAtRisk
     public partial class Form1 : Form
     {
         List<Tick> ticks;
-        List<PortfolioItem> Portfolio;
+        List<PortfolioItem> Portfolio = new List<PortfolioItem>();
         PortfolioEntities context = new PortfolioEntities();
         public Form1()
         {
@@ -22,6 +22,25 @@ namespace ValueAtRisk
             ticks = context.Ticks.ToList();
             dataGridView1.DataSource = ticks;
             CreatePortfolio();
+
+            List<decimal> roi = new List<decimal>();
+            int interval = 30;
+            DateTime startDate = (from x in ticks select x.TradingDay).Min();
+            DateTime endDate = new DateTime(2016, 12, 30);
+            TimeSpan z = endDate - startDate;
+
+            for (int i = 0; i < z.Days - interval; i++)
+            {
+                decimal ny = GetPortfolioValue(startDate.AddDays(i + interval)) - GetPortfolioValue(startDate.AddDays(i));
+                roi.Add(ny);
+                Console.WriteLine(i + " " + ny);
+            }
+
+            var orderedRoi = (from x in roi
+                              orderby x
+                              select x).ToList();
+
+            MessageBox.Show(orderedRoi[orderedRoi.Count() / 5].ToString());
         }
 
         private void CreatePortfolio()
