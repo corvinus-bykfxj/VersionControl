@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace ValueAtRisk
         List<Tick> ticks;
         List<PortfolioItem> Portfolio = new List<PortfolioItem>();
         PortfolioEntities context = new PortfolioEntities();
+        List<decimal> roi;
+        
         public Form1()
         {
             InitializeComponent();
@@ -23,7 +26,7 @@ namespace ValueAtRisk
             dataGridView1.DataSource = ticks;
             CreatePortfolio();
 
-            List<decimal> roi = new List<decimal>();
+            roi = new List<decimal>();
             int interval = 30;
             DateTime startDate = (from x in ticks select x.TradingDay).Min();
             DateTime endDate = new DateTime(2016, 12, 30);
@@ -64,6 +67,34 @@ namespace ValueAtRisk
                 value += (decimal)last.Price * item.Volume;
             }
             return value;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.DefaultExt = "csv";
+            if (sfd.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+            else
+            {
+                using (StreamWriter sw = new StreamWriter(sfd.FileName, false, Encoding.Default))
+                {
+                    sw.WriteLine("Időszak" + "," + "Nyereség");
+
+                    var orderedRoi = (from x in roi
+                                      orderby x
+                                      select x).ToList();
+
+                    int counter = 1;
+                    foreach (var item in roi)
+                    {
+                        sw.WriteLine($"{counter},{roi[counter-1]}");
+                        counter++;
+                    }
+                }
+            }
         }
     }
 }
