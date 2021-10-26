@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using WebService.MnbServiceReference;
 using WebService.Entities;
 using System.Xml;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace WebService
 {
@@ -20,10 +21,14 @@ namespace WebService
         {
             InitializeComponent();
             dataGridView1.DataSource = Rates;
-            CallWebService();
+            chartRateData.DataSource = Rates;
+            ProcessXML(CallWebService());
+            ShowData();
+
+            Console.WriteLine(CallWebService());
         }
 
-        private void CallWebService()
+        private string CallWebService()
         {
             var mnbService = new MNBArfolyamServiceSoapClient();
             var request = new GetExchangeRatesRequestBody()
@@ -36,16 +41,18 @@ namespace WebService
             var response = mnbService.GetExchangeRates(request);
 
             var result = response.GetExchangeRatesResult;
+            return result;
         }
 
         private void ProcessXML(string res)
         {
-            XmlDocument xml = new XmlDocument();
+            var xml = new XmlDocument();
             xml.LoadXml(res);
 
             foreach (XmlElement x in xml.DocumentElement)
             {
                 RateData rd = new RateData();
+                Rates.Add(rd);
 
                 rd.Date = DateTime.Parse(x.GetAttribute("date"));
 
@@ -59,6 +66,23 @@ namespace WebService
                     rd.Value = value / unit;
                 }
             }
+        }
+
+        private void ShowData()
+        {
+            var series = chartRateData.Series[0];
+            series.ChartType = SeriesChartType.Line;
+            series.XValueMember = "Date";
+            series.YValueMembers = "Value";
+            series.BorderWidth = 2;
+
+            var legend = chartRateData.Legends[0];
+            legend.Enabled = false;
+
+            var chartArea = chartRateData.ChartAreas[0];
+            chartArea.AxisX.MajorGrid.Enabled = false;
+            chartArea.AxisY.MajorGrid.Enabled = false;
+            chartArea.AxisY.IsStartedFromZero = false;
         }
     }
 }
