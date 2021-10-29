@@ -17,9 +17,25 @@ namespace WebService
     public partial class Form1 : Form
     {
         BindingList<RateData> Rates = new BindingList<RateData>();
+        BindingList<string> Currencies = new BindingList<string>();
+
         public Form1()
         {
             InitializeComponent();
+
+            var mnbService = new MNBArfolyamServiceSoapClient();
+            var request = new GetCurrenciesRequestBody();
+            var response = mnbService.GetCurrencies(request);
+            var result = response.GetCurrenciesResult;
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(result);
+            foreach (XmlElement item in xml.DocumentElement.ChildNodes[0])
+            {
+                string x = item.InnerText;
+                Currencies.Add(x);
+            }
+
+
             RefreshData();
         }
 
@@ -28,6 +44,7 @@ namespace WebService
             Rates.Clear();
             dataGridView1.DataSource = Rates;
             chartRateData.DataSource = Rates;
+            comboBox1.DataSource = Currencies;
             ProcessXML(CallWebService());
             ShowData();
         }
@@ -61,6 +78,10 @@ namespace WebService
                 rd.Date = DateTime.Parse(x.GetAttribute("date"));
 
                 var childElement = (XmlElement)x.ChildNodes[0];
+                if (childElement == null)
+                {
+                    continue;
+                }
                 rd.Currency = childElement.GetAttribute("curr");
 
                 var unit = decimal.Parse(childElement.GetAttribute("unit"));
