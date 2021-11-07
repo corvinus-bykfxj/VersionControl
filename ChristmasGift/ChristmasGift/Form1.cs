@@ -1,4 +1,5 @@
-﻿using ChristmasGift.Entities;
+﻿using ChristmasGift.Abstractions;
+using ChristmasGift.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,9 +14,9 @@ namespace ChristmasGift
 {
     public partial class Form1 : Form
     {
-        List<Ball> _balls = new List<Ball>();
-        private BallFactory _factory;
-        public BallFactory Factory
+        List<Toy> _toys = new List<Toy>();
+        private IToyFactory _factory;
+        public IToyFactory Factory
         {
             get { return _factory; }
             set { _factory = value; }
@@ -31,9 +32,9 @@ namespace ChristmasGift
         private void conveyorTimer_Tick(object sender, EventArgs e)
         {
             int rightPosition = 0;
-            foreach (Ball item in _balls)
+            foreach (Ball item in _toys)
             {
-                item.MoveBall();
+                item.MoveToy();
                 if (item.Left > rightPosition)
                 {
                     rightPosition = item.Left;
@@ -42,21 +43,21 @@ namespace ChristmasGift
 
             if (rightPosition >= 1000)
             {
-                Ball oldestBall = new Ball();
-                oldestBall = _balls.First();
-                _balls.Remove(oldestBall);
-                Controls.Remove(oldestBall);
+                Toy oldestToy = new Ball();
+                oldestToy = _toys.First();
+                _toys.Remove(oldestToy);
+                Controls.Remove(oldestToy);
             }
         }
 
         private void createTimer_Tick(object sender, EventArgs e)
         {
-            Ball ball = new Ball();
-            ball = Factory.CreateNew();
+            Toy toy = new Ball();
+            toy = Factory.CreateNew();
 
-            _balls.Add(ball);
-            mainPanel.Controls.Add(ball);
-            ball.Left = -ball.Width;
+            _toys.Add(toy);
+            mainPanel.Controls.Add(toy);
+            toy.Left = -toy.Width;
         }
     }
 }
