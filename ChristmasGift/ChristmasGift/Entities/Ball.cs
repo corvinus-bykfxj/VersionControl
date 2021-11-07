@@ -5,32 +5,15 @@ using System.Windows.Forms;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using ChristmasGift.Abstractions;
 
 namespace ChristmasGift.Entities
 {
-    public class Ball : Label
+    public class Ball : Toy
     {
-        public Ball()
-        {
-            this.AutoSize = false;
-            this.Width = 50;
-            this.Height = this.Width;
-            this.Paint += Ball_Paint;
-        }
-
-        private void Ball_Paint(object sender, PaintEventArgs e)
-        {
-            DrawImage(e.Graphics);
-        }
-
-        protected void DrawImage(Graphics input)
+        protected override void DrawImage(Graphics input)
         {
             input.FillEllipse(new SolidBrush(Color.Blue), 0, 0, Width, Height);
-        }
-
-        public void MoveBall()
-        {
-            this.Left += 1;
         }
     }
 }
