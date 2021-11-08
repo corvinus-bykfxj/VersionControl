@@ -75,6 +75,14 @@ namespace ChristmasGift
                 BallColor = button3.BackColor
             };
         }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Factory = new PresentFactory
+            {
+                PresentRibbon = button5.BackColor,
+                PresentBox = button6.BackColor
+            };
+        }
 
         private void DisplayNext()
         {
@@ -100,5 +108,7 @@ namespace ChristmasGift
             }
             button.BackColor = colorPicker.Color;
         }
+
+        
     }
 }
