@@ -19,5 +19,68 @@ namespace MicroSimulation
         {
             InitializeComponent();
         }
+
+        public List<Person> GetPopulation(string csvpath)
+        {
+            List<Person> population = new List<Person>();
+
+            using (StreamReader sr = new StreamReader(csvpath, Encoding.Default))
+            {
+                while (!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine().Split(';');
+                    population.Add(new Person()
+                    {
+                        BirthYear = int.Parse(line[0]),
+                        Gender = (Gender)Enum.Parse(typeof(Gender), line[1]),
+                        NbrOfChildren = int.Parse(line[2])
+                    });
+                }
+            }
+
+            return population;
+        }
+
+        public List<BirthProbability> GetBirthProbabilities(string csvpath)
+        {
+            List<BirthProbability> probabilities = new List<BirthProbability>();
+
+            using (StreamReader sr = new StreamReader(csvpath, Encoding.Default))
+            {
+                while (!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine().Split(';');
+                    probabilities.Add(new BirthProbability()
+                    {
+                        Age = int.Parse(line[0]),
+                        NbrOfChildren = int.Parse(line[1]),
+                        BProbability = double.Parse(line[2])
+                    });
+                }
+            }
+
+            return probabilities;
+        }
+
+        public List<DeathProbability> GetDeathProbabilities(string csvpath)
+        {
+            List<DeathProbability> probabilities = new List<DeathProbability>();
+
+            using (StreamReader sr = new StreamReader(csvpath, Encoding.Default))
+            {
+                while (!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine().Split(';');
+                    probabilities.Add(new DeathProbability()
+                    {
+                        Age = int.Parse(line[0]),
+                        Gender = (Gender)Enum.Parse(typeof(Gender), line[1]),
+                        DProbability = double.Parse(line[2])
+                    });
+                }
+            }
+
+            return probabilities;
+        }
     }
 }
