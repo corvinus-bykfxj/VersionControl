@@ -14,7 +14,11 @@ namespace MicroSimulation
 {
     public partial class Form1 : Form
     {
+        List<Person> Population = new List<Person>();
+        List<BirthProbability> BirthProbabilities = new List<BirthProbability>();
+        List<DeathProbability> DeathProbabilities = new List<DeathProbability>();
 
+        Random rng = new Random(1234);
         public Form1()
         {
             InitializeComponent();
@@ -81,6 +85,46 @@ namespace MicroSimulation
             }
 
             return probabilities;
+        }
+
+        public void SimStep(int year, Person person)
+        {
+            //Ha meghalt, akkor kihagyjuk és tovább ugrunk a következő lépésre
+            if (!person.IsAlive) return;
+
+            //Az életkor tárolása helyben hogy ne kelljen mindig kiszámolni
+            byte age = (byte)(year - person.BirthYear);
+
+            //Halál lekezelése
+            //Halálozási valószínűség lekérdezése
+            double pDeath = (from x in DeathProbabilities
+                             where x.Gender == person.Gender && x.Age == age
+                             select x.DProbability).FirstOrDefault();
+
+            //Meghal-e a személy
+            if (rng.NextDouble() <= pDeath)
+            {
+                person.IsAlive = false;
+            }
+
+            //Születés lekezelése - csak az élő nők szülhetnek természetesen
+            if (person.IsAlive && person.Gender == Gender.Female)
+            {
+                //Születési valószínűség kikeresése
+                double pBirth = (from x in BirthProbabilities
+                                 where x.Age == age
+                                 select x.BProbability).FirstOrDefault();
+
+                //Születik-e gyermeke
+                if (rng.NextDouble() <= pBirth)
+                {
+                    Person newborn = new Person();
+                    newborn.BirthYear = year;
+                    newborn.NbrOfChildren = 0;
+                    newborn.Gender = (Gender)(rng.Next(1, 3));
+                    Population.Add(newborn);
+                }
+            }
         }
     }
 }
