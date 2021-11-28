@@ -126,5 +126,32 @@ namespace MicroSimulation
                 }
             }
         }
+
+        public void Simulation()
+        {
+            Population = GetPopulation(PopulationFileNameTextBox.Text);
+            BirthProbabilities = GetBirthProbabilities(@"C:\Temp\születés.csv");
+            DeathProbabilities = GetDeathProbabilities(@"C:\Temp\halál.csv");
+
+            //Végigmegyünk a vizsgált éveken
+            for (int year = 2005; year <= YearNumericUpDown.Value; year++)
+            {
+                //Végigmegyünk az összes személyen
+                for (int i = 0; i < Population.Count; i++)
+                {
+                    SimStep(year, Population[i]);
+                }
+
+                int nbrOfMales = (from x in Population
+                                  where x.Gender == Gender.Male && x.IsAlive
+                                  select x).Count();
+
+                int nbrOfFemales = (from x in Population
+                                    where x.Gender == Gender.Female && x.IsAlive
+                                    select x).Count();
+
+                Console.WriteLine(string.Format("Év:{0} Fiúk:{1} Lányok:{2}", year, nbrOfMales, nbrOfFemales));
+            }
+        }
     }
 }
