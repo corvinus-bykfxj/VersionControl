@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9FF1AA85-7843-42FA-801A-F41A827745C6}</ProjectGuid>
+    <ProjectGuid>{32F3C9F0-5C41-418E-B51C-493390A9AB41}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WorldsHardestGame</RootNamespace>
-    <AssemblyName>WorldsHardestGame</AssemblyName>
+    <RootNamespace>WHGame</RootNamespace>
+    <AssemblyName>WHGame</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -58,9 +58,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

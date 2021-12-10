@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WorldsHardestGame;
 
-namespace WorldsHardestGame
+namespace WHGame
 {
     public partial class Form1 : Form
     {
@@ -20,9 +21,6 @@ namespace WorldsHardestGame
 
             ga = gc.ActivateDisplay();
             this.Controls.Add(ga);
-
-            //gc.AddPlayer();
-            //gc.Start(true);
         }
     }
 }
