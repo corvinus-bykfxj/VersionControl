@@ -18,6 +18,9 @@ namespace MicroSimulation
         List<BirthProbability> BirthProbabilities = new List<BirthProbability>();
         List<DeathProbability> DeathProbabilities = new List<DeathProbability>();
 
+        List<int> FemalePopulation = new List<int>();
+        List<int> MalePopulation = new List<int>();
+
         Random rng = new Random(1234);
         public Form1()
         {
@@ -129,12 +132,12 @@ namespace MicroSimulation
 
         public void Simulation()
         {
-            Population = GetPopulation(PopulationFileNameTextBox.Text);
-            BirthProbabilities = GetBirthProbabilities(@"C:\Temp\születés.csv");
-            DeathProbabilities = GetDeathProbabilities(@"C:\Temp\halál.csv");
+            Population = GetPopulation(@"D:\Letöltések\nép-teszt.csv");
+            BirthProbabilities = GetBirthProbabilities(@"D:\Letöltések\születés.csv");
+            DeathProbabilities = GetDeathProbabilities(@"D:\Letöltések\halál.csv");
 
             //Végigmegyünk a vizsgált éveken
-            for (int year = 2005; year <= YearNumericUpDown.Value; year++)
+            for (int year = 2005; year <= int.Parse(YearTextBox.Text); year++)
             {
                 //Végigmegyünk az összes személyen
                 for (int i = 0; i < Population.Count; i++)
@@ -145,12 +148,45 @@ namespace MicroSimulation
                 int nbrOfMales = (from x in Population
                                   where x.Gender == Gender.Male && x.IsAlive
                                   select x).Count();
+                MalePopulation.Add(nbrOfMales);
 
                 int nbrOfFemales = (from x in Population
                                     where x.Gender == Gender.Female && x.IsAlive
                                     select x).Count();
+                FemalePopulation.Add(nbrOfFemales);
+            }
+        }
 
-                Console.WriteLine(string.Format("Év:{0} Fiúk:{1} Lányok:{2}", year, nbrOfMales, nbrOfFemales));
+        private void BrowseButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                PopulationFileNameTextBox.Text = ofd.FileName;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            Simulation();
+            DisplayResults();
+        }
+
+        public void DisplayResults()
+        {
+            DisplayData_RichTextBox.Clear();
+            int i = 0;
+            for (int year = 2005; year <= int.Parse(YearTextBox.Text); year++)
+            {
+                DisplayData_RichTextBox.Text += string.Format($"Szimulációs év: {year}" +
+                    $"\n\tFiúk: {MalePopulation[i]}" +
+                    $"\n\tLányok: {FemalePopulation[i]}" +
+                    "\n\n");
+                i++;
             }
         }
     }

@@ -29,24 +29,14 @@ namespace MicroSimulation
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.YearNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.BrowseButton = new System.Windows.Forms.Button();
             this.StartButton = new System.Windows.Forms.Button();
             this.PopulationFileNameTextBox = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YearNumericUpDown)).BeginInit();
+            this.DisplayData_RichTextBox = new System.Windows.Forms.RichTextBox();
+            this.YearTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 38);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(776, 400);
-            this.dataGridView1.TabIndex = 0;
             // 
             // label1
             // 
@@ -68,13 +58,6 @@ namespace MicroSimulation
             this.label2.TabIndex = 2;
             this.label2.Text = "Népesség fájl";
             // 
-            // YearNumericUpDown
-            // 
-            this.YearNumericUpDown.Location = new System.Drawing.Point(77, 12);
-            this.YearNumericUpDown.Name = "YearNumericUpDown";
-            this.YearNumericUpDown.Size = new System.Drawing.Size(53, 20);
-            this.YearNumericUpDown.TabIndex = 3;
-            // 
             // BrowseButton
             // 
             this.BrowseButton.Location = new System.Drawing.Point(616, 12);
@@ -93,6 +76,7 @@ namespace MicroSimulation
             this.StartButton.TabIndex = 5;
             this.StartButton.Text = "Start";
             this.StartButton.UseVisualStyleBackColor = true;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // PopulationFileNameTextBox
             // 
@@ -101,36 +85,48 @@ namespace MicroSimulation
             this.PopulationFileNameTextBox.Size = new System.Drawing.Size(201, 20);
             this.PopulationFileNameTextBox.TabIndex = 6;
             // 
+            // DisplayData_RichTextBox
+            // 
+            this.DisplayData_RichTextBox.Location = new System.Drawing.Point(12, 38);
+            this.DisplayData_RichTextBox.Name = "DisplayData_RichTextBox";
+            this.DisplayData_RichTextBox.Size = new System.Drawing.Size(776, 400);
+            this.DisplayData_RichTextBox.TabIndex = 7;
+            this.DisplayData_RichTextBox.Text = "";
+            // 
+            // YearTextBox
+            // 
+            this.YearTextBox.Location = new System.Drawing.Point(78, 13);
+            this.YearTextBox.Name = "YearTextBox";
+            this.YearTextBox.Size = new System.Drawing.Size(100, 20);
+            this.YearTextBox.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.YearTextBox);
+            this.Controls.Add(this.DisplayData_RichTextBox);
             this.Controls.Add(this.PopulationFileNameTextBox);
             this.Controls.Add(this.StartButton);
             this.Controls.Add(this.BrowseButton);
-            this.Controls.Add(this.YearNumericUpDown);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YearNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown YearNumericUpDown;
         private System.Windows.Forms.Button BrowseButton;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.TextBox PopulationFileNameTextBox;
+        private System.Windows.Forms.RichTextBox DisplayData_RichTextBox;
+        private System.Windows.Forms.TextBox YearTextBox;
     }
 }
 
