@@ -132,7 +132,7 @@ namespace MicroSimulation
 
         public void Simulation()
         {
-            Population = GetPopulation(@"D:\Letöltések\nép-teszt.csv");
+            Population = GetPopulation(PopulationFileNameTextBox.Text);
             BirthProbabilities = GetBirthProbabilities(@"D:\Letöltések\születés.csv");
             DeathProbabilities = GetDeathProbabilities(@"D:\Letöltések\halál.csv");
 
