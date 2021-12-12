@@ -57,6 +57,7 @@ namespace WHGame
             {
                 winnerBrain = winners.FirstOrDefault().Brain.Clone();
                 gc.GameOver -= Gc_GameOver;
+                StartButton.Visible = true;
                 return;
             }
 
@@ -75,6 +76,15 @@ namespace WHGame
                     gc.AddPlayer(b.Mutate());
             }
             gc.Start();
+        }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            gc.ResetCurrentLevel();
+            gc.AddPlayer(winnerBrain.Clone());
+            gc.AddPlayer();
+            ga.Focus();
+            gc.Start(true);
         }
     }
 }
