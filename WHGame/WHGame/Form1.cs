@@ -39,6 +39,7 @@ namespace WHGame
             gc.Start();
         }
 
+        Brain winnerBrain = null;
         private void Gc_GameOver(object sender)
         {
             generation++;
@@ -48,6 +49,16 @@ namespace WHGame
                              orderby p.GetFitness() descending
                              select p;
             var topPerformers = playerList.Take(populationSize / 2).ToList();
+
+            var winners = from p in topPerformers
+                          where p.IsWinner
+                          select p;
+            if (winners.Count() > 0)
+            {
+                winnerBrain = winners.FirstOrDefault().Brain.Clone();
+                gc.GameOver -= Gc_GameOver;
+                return;
+            }
 
             gc.ResetCurrentLevel();
             foreach (var p in topPerformers)
